@@ -1,0 +1,47 @@
+body{
+    font-family: Georgia, 'Times New Roman', Times, serif;
+    background-color: #f5ebd6;
+    text-align: center;
+}
+
+#diary-input,#replybox{
+    width: 100%;
+    min-height: 220px;
+    padding: 14px;
+    font-family:  Georgia, 'Times New Roman', Times, serif;
+    font-size: 1em;
+    line-height: 1.6;
+    border: 2px solid #744c13;
+    border-radius: 6px;
+    background: #fffdf5;
+    box-sizing: border-box;
+    text-align: left;
+}
+
+#diary-input{
+    resize: vertical;
+}
+
+#replybox{
+    white-space: pre-wrap;
+    color: #2b2318;
+}
+
+#replybox.typing::after{
+    content: "|";
+    animation: blink 0.8s steps(1) infinite;
+}
+
+@keyframes blink{
+    50% {opacity:0;}
+}
+
+button{
+    margin-top: 10px;
+    padding: 8px 16px;
+    border: 1px solid #8b6f47;
+    border-radius: 4px;
+    background: #d5b036;
+    cursor: pointer;
+    font-family: Georgia, 'Times New Roman', Times, serif;
+}
