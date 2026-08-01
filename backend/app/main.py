@@ -6,6 +6,7 @@ from sqlalchemy.orm import Session
 from app.services.ai import get_diary_response
 from app.database import Base, engine, get_db
 from app import models
+import traceback
 
 Base.metadata.create_all(bind=engine)
 
@@ -47,8 +48,6 @@ def diary_response(entry: DiaryEntry, db: Session = Depends(get_db)):
         raise HTTPException(status_code=400, detail="No text to respond to.")
 
     user = get_or_create_default_user(db)
-
-    # Pull recent entries for context, then flip to oldest-first for a coherent timeline
     recent = (
         db.query(models.DiaryEntry)
         .filter(models.DiaryEntry.user_id == user.id)
@@ -60,9 +59,22 @@ def diary_response(entry: DiaryEntry, db: Session = Depends(get_db)):
 
     try:
         reply = get_diary_response(entry.text, past_entries=past_texts)
-    except RuntimeError as e:
-        raise HTTPException(status_code=503, detail=str(e))
+    except Exception as e:
+        traceback.print_exc()
+        raise HTTPException(status_code=500, detail=str(e))
 
+    try:
+        db_entry=models.DiaryEntry(
+            user_id=user.id,
+            entry_text=entry.text,
+            ai_reply=reply
+        )
+        db.add(db_entry)
+        db.commit()
+        db.refresh(db_entry)
+    except Exception as e:
+        db.rollback()
+        raise HTTPException(status_code=500,detail=f"Failed to save entry:{str(e)}")
 
     return {"reply": reply}
 

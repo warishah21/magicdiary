@@ -47,7 +47,7 @@ def get_diary_response(user_text: str, past_entries: list[str] | None = None) ->
                 ],
                 "stream": False
             },
-            timeout=60
+            timeout=180
         )
         response.raise_for_status()
         data = response.json()

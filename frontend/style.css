@@ -1,47 +1,214 @@
+:root {
+  --parchment: #f4ecd8;
+  --parchment-light: #fffdf5;
+  --ink: #1a1a2e;
+  --gold: #b8860b;
+  --gold-light: #d4af37;
+  --border: #8b6f47;
+  --text: #2b2318;
+}
+
+body.dark {
+  --parchment: #1e1a14;
+  --parchment-light: #2a2418;
+  --ink: #e8dcc0;
+  --border: #6b5533;
+  --text: #e8dcc0;
+}
+
+*{
+    box-sizing: border-box;
+}
+
 body{
     font-family: Georgia, 'Times New Roman', Times, serif;
-    background-color: #f5ebd6;
+    background: var(--parchment);
+    color: var(--text);
     text-align: center;
+    padding: 20px;
+    min-height: 100vh;
+    margin: 0;
+    transition: background 0.4s ease, color 0.4s ease;
+}
+
+h1{
+    font-size: 2.2em;
+    letter-spacing: 2px;
+    color: var(--gold);
+    text-shadow: 0 0 8px rgba(212, 175, 55, 0.4);
+    margin-bottom: 4px;
+}
+
+#status{
+    font-style: italic;
+    opacity: 0.7;
+    margin-bottom: 16px;
+}
+
+#layout{
+    display: flex;
+    justify-content: center;
+    align-items: stretch;
+    gap: 24px;
+    max-width: 1500px;
+    margin: 0 auto;
+}
+
+#pgList{
+    width: 220px;
+    flex: 0 0 220px;
+    background: var(--parchment-light);
+    border: 2px solid var(--border);
+    border-radius: 8px;
+    padding: 12px;
+    text-align: left;
+    max-height: 500px;
+    overflow-y: auto;
+    box-shadow: 0 4px 14px rgba(0,0,0,0.15);
+    display: flex;
+    flex-direction: column;
+}
+
+#pgList h3{
+    color: var(--gold);
+    margin-top: 0;
+}
+
+#pgList ul{
+    list-style: none;
+    padding: 0;
+}
+
+#newpagebtn{
+    width: 100%;
+    margin: 10px 0 16px 0;
+}
+
+#pagelist{
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    overflow-y: auto;
+    flex: 1;
+}
+
+#pagelist li{
+    padding: 8px;
+    margin-bottom: 6spx;
+    background: var(--parchment);
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 0.85em;
+    border-left: 3px solid transparent;
+    transition: border-color 0.2s ease, background 0.2s ease;
+}
+
+#pagelist li:hover{
+    border-left: 3px solid var(--gold);
+    background: rgba(212, 175, 55, 0.15);
+}
+
+#diarybox{
+    flex: 1;
+    width: 600px;
+    max-width: 100%;
+    /* max-width: 1000px; */
+    display: flex;
+    flex-direction: column;
 }
 
 #diary-input,#replybox{
     width: 100%;
-    min-height: 220px;
-    padding: 14px;
+    min-height: 380px;
+    padding: 16px;
     font-family:  Georgia, 'Times New Roman', Times, serif;
-    font-size: 1em;
+    font-size: 1.05em;
     line-height: 1.6;
-    border: 2px solid #744c13;
-    border-radius: 6px;
-    background: #fffdf5;
+    border: 2px solid var(--border);
+    border-radius: 8px;
+    background: var(--parchment-light);
+    color: var(--text);
     box-sizing: border-box;
     text-align: left;
+    box-shadow: 0 6px 20px rgba(0,0,0,0.15);
 }
 
 #diary-input{
     resize: vertical;
+    background-image: repeating-linear-gradient(
+    rgba(139,111,71,0.08) 0px, transparent 1px, transparent 28px, rgba(139,111,71,0.08) 29px);
 }
 
 #replybox{
     white-space: pre-wrap;
-    color: #2b2318;
+    animation: pageIn 0.4s ease;
 }
 
 #replybox.typing::after{
     content: "|";
     animation: blink 0.8s steps(1) infinite;
+    color: var(--gold);
 }
 
 @keyframes blink{
     50% {opacity:0;}
 }
 
+@keyframes pageIn {
+   from { opacity: 0; transform: translateY(6px); }
+   to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes inkGlow {
+   0% { text-shadow: 0 0 0px rgba(212,175,55,0); }
+   40% { text-shadow: 0 0 10px rgba(212,175,55,0.6); }
+   100% { text-shadow: 0 0 0px rgba(212,175,55,0); }
+}
+
+.glow-once {
+   animation: inkGlow 1.6s ease;
+}
+
 button{
-    margin-top: 10px;
-    padding: 8px 16px;
-    border: 1px solid #8b6f47;
-    border-radius: 4px;
-    background: #d5b036;
-    cursor: pointer;
-    font-family: Georgia, 'Times New Roman', Times, serif;
+   margin-top: 10px;
+   padding: 8px 18px;
+   border: 1px solid var(--gold);
+   border-radius: 4px;
+   background: linear-gradient(180deg, var(--gold-light), var(--gold));
+   color: #2b2318;
+   font-family: inherit;
+   font-weight: bold;
+   cursor: pointer;
+   transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+button:hover{
+    transform: translateY(-1px);
+    box-shadow: 0 3px 10px rgba(184, 134, 11, 0.35);
+}
+
+button:active {
+   transform: translateY(0);
+}
+
+#darkModeToggle {
+  position: fixed;
+  top: 16px;
+  right: 16px;
+  margin: 0;
+}
+
+#save-btn{
+    align-self: flex-start;
+}
+
+@media(max-width:700px){
+    #layout{
+        flex-direction: column;
+        align-items: center;
+    }
+    #pgList,#diarybox{
+        width: 100%;
+        min-width: 420px;
+    }
 }

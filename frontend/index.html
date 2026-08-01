@@ -8,17 +8,25 @@
     </head>
 
     <body>
+        <button id="darkModeToggle">🌙 Dark Mode</button>
         <h1>Magic Diary</h1>
         <p id="status">Checking Connection...</p>
+        
+        <div id="layout">
+            <aside id="pgList">
+                <h3>Past Pages</h3>
+                <button id="newpagebtn">+New Entry</button>
+                <ul id="pagelist"></ul>
+            </aside>
         
         <div id="diarybox">
             <textarea id="diary-input" placeholder="Dear Diary...." rows="12"></textarea>
             <div id="replybox" style="display: none;"></div>
             <br/>
             <button id="save-btn">Write to Diary</button>
-            <button id="newpagebtn" style="display: none;">+New Entry</button>
         </div>
-        
+        </div>
+
         <script src="script.js"></script>
     </body>
 
